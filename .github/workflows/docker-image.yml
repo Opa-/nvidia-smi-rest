@@ -16,8 +16,16 @@ jobs:
     - uses: actions/checkout@v3
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - name: Build the Docker image
-      run: >
-        docker buildx build . 
-        --file Dockerfile
-        --tag opa/nvidia-smi-rest:latest
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: Build and push
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        platforms: linux/amd64,linux/arm64
+        push: true
+        tags: |
+          opaopa/nvidia-smi-rest:latest
