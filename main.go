@@ -40,8 +40,8 @@ func main() {
 		}
 	})
 
-	fmt.Println("Starting HTTP server on port 7777...")
-	if err := http.ListenAndServe(":7777", nil); err != nil {
+	fmt.Printf("Starting server on port: %d\n", *port)
+	if err := http.ListenAndServe(fmt.Sprintf(":%d", *port), nil); err != nil {
 		fmt.Printf("Error starting HTTP server: %s\n", err)
 	}
 }
